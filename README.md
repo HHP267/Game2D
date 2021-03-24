@@ -1,30 +1,19 @@
 # gameframework2d (GF2D)
-a collection of utlitity functions designed to facilitate creating 2D games with SDL2
-This project is specifically intended to function as an educational tool for my students taking 2D Game Programming.
+Game From Henry Perazza - PreAlpha
 
-Currently the project is in a WIP state, however it is functional with sample projects showcasing rudimentary scrolling shooters,
-platformers, and adventure games.
+#2D Game Development - MidTerm Game
 
-The master branch is kept deliberately minimal to allow students to build out systems as they are learning.
-Other branches have more complete system: Collisions, menus, input abstraction.
+You're a Mole, looking for treasure in the underground levels
 
-# Build Process
+Traverse the overworld, finding cave openings. Use the arrow keys to move
 
-Before you can build the example code we are providing for you, you will need to obtain the libraries required
-by the source code
- - SDL2
- - SDL2_image
- - SDL2_mixer
- - SDL2_ttf
-There are additional sub modules that are needed for this project to work as well, but they can be pulled right from within the project.
-Performable from the following steps from the root of the cloned git repository within a terminal. 
+Approach the cave openings, and shift to a 2D platformer, working around the single screen
+challenges. The controls change as well.
+L/R arrow keys still move
+Up is now reserved for the jump feature
+While in the air, you can now increase your speed with an all purpose dash by pressing (and holding) the spacebar
+While on the ground or a platform, press E to dig underneath the platform
+If you're inside a platform, by pressing jump you can perform the Ground Burst, a high speed vertical movement tech
 
-Make sure you fetch submodules: `git submodule update --init --recursive`
-Go into each submodule's src directory and type:
-`make`
-`make static`
+Various enemies and obstacles roam the underground, so watch out!
 
-Once each submodule has been made you can go into the base project src folder anre simply type:
-`make`
-
-You should now have a `gf2d` binary within the root of your git repository. Executing this will start your game.
