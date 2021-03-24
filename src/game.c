@@ -29,7 +29,6 @@ int main(int argc, char * argv[])
 	
 	int levelType = 0;
 	int levelLocation = 0;
-	int score;
 	int physics = 0;
     int mx,my;
     float mf = 0;
@@ -55,6 +54,11 @@ int main(int argc, char * argv[])
 	entity_manager_init(100);
 	level = levelNew();
 
+	FILE *fp;
+	float prevScore;
+	fp = fopen("scores.txt", "r");
+	fscanf(fp, "%f", &prevScore);
+	fclose(fp);
 
     SDL_ShowCursor(SDL_DISABLE);
     
@@ -97,7 +101,6 @@ int main(int argc, char * argv[])
              &mouseColor,
             (int)mf);
         gf2d_grahics_next_frame();// render current draw frame and skip to the next frame
-		score = returnScore();
 
 		if (playerEnteranceContact())
 		{
@@ -242,12 +245,17 @@ int main(int argc, char * argv[])
         if (keys[SDL_SCANCODE_ESCAPE])done = 1; // exit condition
 		//if (keys[SDL_SCANCODE_Q])slog("score %d", returnScore());
 
-		gfc_line_sprintf(scoreText, "Score: %f", score);
-        //slog("Rendering at %f FPS",gf2d_graphics_get_frames_per_second());
-		fontRender(font, scoreText, vector2d(475, 20), gfc_color8(255,0,0,255));
+		gfc_line_sprintf(scoreText, "Previous Score: %f", prevScore);
+		fontRender(font, scoreText, vector2d(200, 20), gfc_color8(255,0,0,255));
+
+		
+
+		gfc_line_sprintf(scoreText, "Score: %f", returnScore());
+		fontRender(font, scoreText, vector2d(700, 20), gfc_color8(255, 0, 0, 255));
+
 		gf2d_grahics_next_frame();
     }
-    slog("---==== END ====---");
+	slog("------------END---------------");
     return 0;
 }
 /*eol@eof*/
