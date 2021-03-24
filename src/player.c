@@ -94,6 +94,10 @@ Vector2D returnPlayerPosition()
 
 void playerDie(Entity *self)
 {
+	FILE *fp;
+	fp = fopen("scores.txt", "w+");
+	fprintf(fp, "Final Score: %f \n", score);
+	fclose(fp);
 	entity_free(self);
 }
 
@@ -115,7 +119,10 @@ void playerUpdate(Entity *self)
 
 	playerBoundaries(self);
 	playerWarp();
-
+	if (playerEnemyContact())
+	{
+		playerDie(self);
+	}
 	if (entityGrounded())
 	{
 		self->velocity.x = 0;
