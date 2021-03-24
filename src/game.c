@@ -234,11 +234,7 @@ int main(int argc, char * argv[])
 
 		if (playerEnemyContact())
 		{
-			FILE *fp;
-			fp = fopen("scores.txt", "w+");
-			fprintf(fp, "Final Score: %f \n", returnScore());
-			fclose(fp);
-			playerDie();
+			playerDie(entity_manager_return_entity(0));
 			done = 1;
 		}
 		
