@@ -101,7 +101,7 @@ void playerDie(Entity *self)
 	entity_free(self);
 }
 
-int returnScore()
+float returnScore()
 {
 	return score;
 }
