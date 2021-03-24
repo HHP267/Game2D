@@ -32,7 +32,7 @@ Vector2D returnPlayerPosition();
 * @briefs returns the total score of the player
 * @return a score integer
 */
-int returnScore();
+float returnScore();
 
 /*
 * @briefs updates the total score of the player
