@@ -1,0 +1,24 @@
+{
+"window":{
+    "color" : [255,255,255, 255],
+	"backgroundColor" : [255,255,255,255],
+    "dimensions" : [0,0,600,120],
+    "justify" : "center",
+    "align" : "middle"
+	"elements":
+	[
+		{
+            "type": "label",
+            "name": "question",
+            "id" : 1,
+            "bounds": [0,0,1,100],
+            "color" : [255,255,255,255],
+			"backgroundColor" : [255,255,255,255],
+            "text":"You Died! Press Q to Quit!",
+            "justify" : "center",
+            "align" : "middle",
+            "style":"H5"
+       }
+	]
+	}
+}
