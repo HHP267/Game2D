@@ -33,7 +33,10 @@ typedef struct Entity_s
 	Bool platform;
 	Bool collect;
 	Bool enter;
+	Bool destruct;
+	Bool animate;
 	Bool warp;
+	Bool key;
 }Entity;
 
 /**
@@ -122,6 +125,20 @@ Bool playerCollectContact();
 Bool playerEnteranceContact();
 
 /*
+*@brief checks if player touching a destructable
+*@param the destructable that is being contacted
+*@return TRUE if touching a destructable, FALSE if not
+*/
+Bool playerDestructableContact(Entity *d);
+
+/*
+*@brief checks if destructable touching another destructable
+*@param the destructable that is being contacted
+*@return TRUE if touching a destructable, FALSE if not
+*/
+Bool destructablesContact(Entity *d);
+
+/*
 *@brief warps the player to the opposite warp point
 */
 void playerWarp();
@@ -142,6 +159,12 @@ void entity_free(Entity *ent);
 *	@param ent the entity to draw
 */
 void entity_draw(Entity *ent);
+
+/**
+*	@brief animates the entity
+*	@param ent the entity to animate
+*/
+void entity_drawAnimate(Entity *ent);
 
 
 

@@ -39,6 +39,13 @@ void gf2d_graphics_set_frame_delay(Uint32 frameDelay);
 float gf2d_graphics_get_frames_per_second();
 
 /**
+* @brief gets the resolution of the screen
+* @return a Vector2D of the screen resolution
+*/
+Vector2D gf2d_graphics_get_resolution();
+
+
+/**
  * @brief get the current rendering context
  * @return NULL on error or the current rendering context
  */
@@ -47,7 +54,7 @@ SDL_Renderer *gf2d_graphics_get_renderer();
 /**
  * @brief render the current frame to screen
  */
-void gf2d_grahics_next_frame();
+void gf2d_graphics_next_frame();
 
 /**
  * @brief clears drawing buffer.  Should be called each frame before drawing

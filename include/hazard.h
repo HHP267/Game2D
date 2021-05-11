@@ -6,9 +6,10 @@
 #include "entity.h"
 
 /*
-*@brief creates an collectable
+*@brief creates an spike
 */
 Entity *spikeCreate(Vector2D position);
+
 
 
 #endif
