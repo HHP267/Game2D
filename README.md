@@ -5,6 +5,7 @@ You're a Mole, looking for treasure in the underground levels
 Traverse the overworld, finding cave openings. Use the arrow keys to move
 The overworld now also has puzzles! Move the rocks around, destroy them with E, and push
 them far with R. Open pathways by manipulating the overworld
+
 Move Rocks, Shove Rocks, Destroy Rocks, Open Doors
 Locked Doors, Trap Levels, Movable Rocks, Pressure Plates
 
