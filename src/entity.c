@@ -92,7 +92,7 @@ Bool entityGrounded()
 	int i;
 	for (i = 1; i < entityManager.max_entities; i++)
 	{
-		if (entity_manager_collide(entityManager.entity_list[0], entityManager.entity_list[i]))
+		if (entity_manager_collide(entityManager.entity_list[0], entityManager.entity_list[i]) && entityManager.entity_list[i]._inuse == 1)
 		{
 			if (entityManager.entity_list[i].platform)
 			{
@@ -174,7 +174,7 @@ Bool playerCollectContact()
 	int i;
 	for (i = 1; i < entityManager.max_entities; i++)
 	{
-		if (entity_manager_collide(entityManager.entity_list[0], entityManager.entity_list[i]))
+		if (entity_manager_collide(entityManager.entity_list[0], entityManager.entity_list[i]) && entityManager.entity_list[i]._inuse == 1)
 		{
 			if (entityManager.entity_list[i].collect)
 			{
@@ -194,6 +194,62 @@ Bool playerEnteranceContact()
 		{
 			if (entityManager.entity_list[i].enter)
 			{
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+Bool playerDestructableContact(Entity *d)
+{
+	int i;
+	for (i = 1; i < entityManager.max_entities; i++)
+	{
+		if (entity_manager_collide(entityManager.entity_list[0], *d) && d->_inuse == 1)
+		{
+			if (entityManager.entity_list[i].destruct)
+			{
+				if (entityManager.entity_list[0].position.x + entityManager.entity_list[0].w > d->position.x + d->w)
+				{
+					entityManager.entity_list[0].position.x += 1;
+					d->position.x -= 2;
+				}
+				else
+				{
+					entityManager.entity_list[0].position.x -= 1;
+					d->position.x += 2;
+				}
+				if (entityManager.entity_list[0].position.y + entityManager.entity_list[0].h > d->position.y + d->h)
+				{
+					entityManager.entity_list[0].position.y += 1;
+					d->position.y -= 2;
+				}
+				else
+				{
+					entityManager.entity_list[0].position.y -= 1;
+					d->position.y += 2;
+				}
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+Bool destructablesContact(Entity *d)
+{
+	int i;
+	for (i = 1; i < entityManager.max_entities; i++)
+	{
+		if (entity_manager_collide(entityManager.entity_list[i], *d) && d->_inuse == 1)
+		{
+			if (entityManager.entity_list[i].destruct && d->destruct)
+			{
+				entityManager.entity_list[i].velocity.x = 0;
+				d->velocity.x = 0;
+				d->position.x += 1;
+				entityManager.entity_list[i].position.x -= 1;
 				return true;
 			}
 		}
@@ -260,7 +316,14 @@ void entity_manager_draw_entities()
 	for (i = 0; i < entityManager.max_entities; i++)
 	{
 		if (entityManager.entity_list[i]._inuse == 0)continue;
-		entity_draw(&entityManager.entity_list[i]);
+		if (entityManager.entity_list[i].animate == true)
+		{
+			entity_drawAnimate(&entityManager.entity_list[i]);
+		}
+		else
+		{
+			entity_draw(&entityManager.entity_list[i]);
+		}
 
 	}
 }
@@ -343,6 +406,36 @@ void entity_draw(Entity *ent)
 			&ent->flip,   //Vector2D * flip,
 			NULL,   //Vector4D * colorShift,
 			NULL);  //Uint32 frame);
+
+	}
+}
+
+void entity_drawAnimate(Entity *ent)
+{
+	Vector2D drawPosition, offset;
+	if (!ent)
+	{
+		slog("Cannot draw a NULL entity");
+		return;
+	}
+	if (ent->draw) ent->draw(ent);
+	else
+	{
+		if (ent->sprite == NULL)
+		{
+			return;
+		}
+		offset = cameraOffset();
+		drawPosition = vector2d(ent->position.x + offset.x, ent->position.y + offset.y);
+		gf2d_sprite_draw(
+			ent->sprite,
+			ent->position,
+			NULL,   //Vector2D * scale,
+			NULL,   //Vector2D * scaleCenter,
+			&ent->rotation,   //Vector3D * rotation,
+			&ent->flip,   //Vector2D * flip,
+			NULL,   //Vector4D * colorShift,
+			ent->frame);  //Uint32 frame);
 
 	}
 }

@@ -3,6 +3,7 @@
 #include "player.h"
 #include "camera.h"
 #include "shape.h"
+#include "gfc_audio.h"
 #include "collect.h"
 #include "transition.h"
 #include "floor.h"
@@ -18,7 +19,7 @@ typedef struct{
 static PlayerStats data = { 3, 2.4, 0, 100 };
 
 Vector2D location;
-int score = 0;
+float score;
 
 Entity *playerSpawn(Vector2D position)
 {
@@ -94,10 +95,14 @@ Vector2D returnPlayerPosition()
 
 void playerDie(Entity *self)
 {
+	FILE *fp;
+	fp = fopen("scores.txt", "w+");
+	fprintf(fp, "%f \n", score);
+	fclose(fp);
 	entity_free(self);
 }
 
-int returnScore()
+float returnScore()
 {
 	return score;
 }
@@ -115,6 +120,10 @@ void playerUpdate(Entity *self)
 
 	playerBoundaries(self);
 	playerWarp();
+	if (playerEnemyContact())
+	{
+		playerDie(self);
+	}
 
 	if (entityGrounded())
 	{
@@ -122,8 +131,7 @@ void playerUpdate(Entity *self)
 	}
 	if (playerCollectContact())
 	{
-		score += 10;
-		slog("Score %d", returnScore());
+		updateScore();
 	}
 
 
@@ -147,6 +155,11 @@ void playerUpdate(Entity *self)
 			self->position.x += 2;
 			self->flip.x = 1;
 			self->facing.x = -1;
+		}
+		if (entityGrounded())
+		{
+			self->position.x -= 1;
+			self->position.y += 1;
 		}
 	}
 	else if (self->worldState == 1)
@@ -174,7 +187,7 @@ void playerUpdate(Entity *self)
 		}
 		if (entityGrounded())
 		{
-			if (movement[SDL_SCANCODE_E])
+			if (movement[SDL_SCANCODE_DOWN])
 			{
 				self->position.y += 2;
 			}

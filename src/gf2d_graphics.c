@@ -27,6 +27,10 @@ typedef struct
     Uint32 gmask;
     Uint32 bmask;
     Uint32 amask;
+	Uint32 renderHeight;
+	Uint32 renderWidth;
+
+	int __DebugMode;
 }Graphics;
 
 /*local gobals*/
@@ -51,6 +55,7 @@ void gf2d_graphics_initialize(
         slog("Unable to initilaize SDL system: %s",SDL_GetError());
         return;
     }
+	
     atexit(SDL_Quit);
     if (fullscreen)
     {
@@ -188,6 +193,11 @@ float gf2d_graphics_get_frames_per_second()
     return gf2d_graphics.fps;
 }
 
+Vector2D gf2d_graphics_get_resolution()
+{
+	return vector2d(gf2d_graphics.renderWidth, gf2d_graphics.renderHeight);
+}
+
 void gf2d_graphics_frame_delay()
 {
     Uint32 diff;
@@ -202,7 +212,7 @@ void gf2d_graphics_frame_delay()
     gf2d_graphics.fps = 1000.0/MAX(SDL_GetTicks() - gf2d_graphics.then,0.001);
 }
 
-void gf2d_grahics_next_frame()
+void gf2d_graphics_next_frame()
 {
     SDL_RenderPresent(gf2d_graphics.renderer);
     gf2d_graphics_frame_delay();
@@ -293,6 +303,11 @@ SDL_Surface *gf2d_graphics_screen_convert(SDL_Surface **surface)
     SDL_FreeSurface(*surface);
     *surface = NULL;
     return convert;
+}
+
+Bool gf2d_graphics_debug_mode()
+{
+	return (Bool)gf2d_graphics.__DebugMode;
 }
 
 /*eol@eof*/

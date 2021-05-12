@@ -38,9 +38,9 @@ SDL_Rect rectTOSDL(ShapeRect r)
 	return gfc_sdl_rect(r.x, r.y, r.w, r.h);
 } */
 
-Bool shapePointRect(ShapePoint point, ShapeRect r)
+Bool shapePointRect(ShapeEdge point, ShapeRect r)
 {
-	if ((point.x < r.x) || (point.x > r.x + r.w) || (point.y < r.y) || (point.y > r.y + r.h))
+	if ((point.x1 < r.x) || (point.x1 > r.x + r.w) || (point.y1 < r.y) || (point.y1 > r.y + r.h))
 	{
 		return false;
 	}
@@ -79,7 +79,7 @@ Bool shapeCircleCollide(ShapeCircle a, ShapeCircle b)
 	return true;
 }
 
-Bool shapePointCircle(ShapePoint point, ShapeCircle c)
+Bool shapePointCircle(ShapeEdge point, ShapeCircle c)
 {
-	return shapeCircleCollide(circleBuild(point.x, point.y, 0), c);
+	return shapeCircleCollide(circleBuild(point.x1, point.y1, 0), c);
 }
